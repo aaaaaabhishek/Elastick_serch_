@@ -75,16 +75,36 @@ ExistsQuery existsQuery = ExistsQuery.of(e -> e
 Example Use Case: Find all documents where the description field is populated with a non-null value.
 Common Scenario: Often used to filter out documents missing specific data.
 
-7.Term Query:
+nuull check with not-null extarct data
+  try {
+            // Define the BoolQuery
+            BoolQuery boolQuery = BoolQuery.of(b -> b
+                .should(s1 -> s1.term(t -> t
+                    .field("fieldName") // Field to check for exact match
+                    .value(JsonData.of("specificValue")) // Exact match value
+                ))
+                .should(s2 -> s2.exists(e -> e
+                    .field("fieldName") // Check for non-null
+                ))
+            );
+            // Execute the search with the defined BoolQuery
+            SearchResponse<MyDocument> response = elasticsearchClient.search(s -> s
+                .index("my_index") // Replace with your index name
+                .query(q -> q.bool(boolQuery)), // Use the previously defined boolQuery
+                MyDocument.class // Replace with your document class
+            );
+            // Process the search response
+            List<Hit<MyDocument>> hits = response.hits().hits();
+            for (Hit<MyDocument> hit : hits) {
+                // Output each document found
+                System.out.println(hit.source());
+            }
+  } catch (IOException e) {
+            e.printStackTrace(); // Handle exceptions related to Elasticsearch
+        }
+    }
 
-Purpose: Checks if a field contains a specific value, including an empty string ("") if needed.
 
 
-TermQuery termQuery = TermQuery.of(t -> t
-    .field("fieldName")
-    .value(FieldValue.of("specificValue"))
-);
 
-Example Use Case: Retrieve documents where the description field is exactly an empty string ("").
-Common Scenario: Used to filter documents by exact matches on specific fields.
 
