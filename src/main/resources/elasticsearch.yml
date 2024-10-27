@@ -1,0 +1,82 @@
+
+#Elasticsearch Configuration: The settings in elasticsearch.yml are specific to the Elasticsearch server and dictate how each node in the cluster operates. add it to where you add insdide your app
+
+# Cluster-wide settings
+cluster.name: my-cluster
+
+# Node 1: Master Node
+node.name: master-node-1
+node.master: true
+node.data: false
+node.ingest: false
+node.voting_only: false
+discovery.seed_hosts: ["master-node-1:9300", "master-node-2:9300", "master-node-3:9300"]
+cluster.initial_master_nodes: ["master-node-1", "master-node-2", "master-node-3"]
+
+# Node 2: Master Node
+# Uncomment to configure additional master node
+# node.name: master-node-2
+# node.master: true
+# node.data: false
+# node.ingest: false
+# node.voting_only: false
+
+# Node 3: Master Node
+# Uncomment to configure additional master node
+# node.name: master-node-3
+# node.master: true
+# node.data: false
+# node.ingest: false
+# node.voting_only: false
+
+# Node 4: Data Node
+#->node.data: Set to true, allowing this node to store data.
+#  This node will hold the shards of the indices.
+#
+node.name: data-node-1
+node.master: false
+node.data: true
+node.ingest: false
+node.voting_only: false
+discovery.seed_hosts: ["master-node-1:9300", "master-node-2:9300", "master-node-3:9300"]
+#->node.ingest: Set to true, indicating this node will handle data processing before it is indexed.
+# Node 5: Ingest Node
+node.name: ingest-node-1
+node.master: false
+node.data: false
+node.ingest: true
+node.voting_only: false
+discovery.seed_hosts: ["master-node-1:9300", "master-node-2:9300", "master-node-3:9300"]
+
+# Node 6: Voting-Only Node-> when any master down it vointing do for master
+node.name: voting-only-node-1
+node.master: false
+node.data: false
+node.ingest: false
+node.voting_only: true
+discovery.seed_hosts: ["master-node-1:9300", "master-node-2:9300", "master-node-3:9300"]
+
+# Node 7: Coordinating-Only Node
+node.name: coordinating-node-1
+node.master: false
+node.data: false
+node.ingest: false
+node.voting_only: false
+discovery.seed_hosts: ["master-node-1:9300", "master-node-2:9300", "master-node-3:9300"]
+
+# Network settings
+network.host: 0.0.0.0  # Listen on all interfaces
+http.port: 9200         # HTTP port for client requests
+transport.port: 9300    # Port for internal cluster communication
+
+# Path settings
+path.data: /var/lib/elasticsearch  # Path to store data
+path.logs: /var/log/elasticsearch    # Path to store logs
+
+# Memory settings
+# Set the Java heap size (example: 2GB)
+# This setting should be configured in environment variables (not in elasticsearch.yml)
+# export ES_JAVA_OPTS="-Xms2g -Xmx2g"
+
+# Other settings
+discovery.type: single-node  # For single-node testing (remove in production)
