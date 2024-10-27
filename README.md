@@ -104,7 +104,12 @@ nuull check with not-null extarct data
         }
     }
 
-
+other
+     BoolQuery combinedQuery = BoolQuery.of(b -> b
+                .should(s -> s.exists(e -> e.field("fieldName"))) // Check for documents where fieldName exists
+                .should(s -> s.mustNot(mn -> mn.exists(e -> e.field("fieldName"))) // Check for documents where fieldName does not exist (null)
+                )
+            );
 
 
 
