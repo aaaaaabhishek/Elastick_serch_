@@ -7,7 +7,7 @@ TermQuery termQuery = TermQuery.of(t -> t
         .value(FieldValue.of("12345")) // Matches documents where user_id is exactly "12345"
 );
 
-3. Terms Query
+2. Terms Query
 Purpose: Matches documents that contain any of the values in a specified list for a particular field.
 Usage: Use this when you want to find documents that may contain multiple values.
 
@@ -20,7 +20,7 @@ TermsQuery termsQuery = TermsQuery.of(t -> t
         )
 );
 
-2. Match Query
+3. Match Query
 Use Case: Used for full-text search. It analyzes the input and matches documents based on the tokens generated from the input.
 Example: If you're searching for documents containing the word "Elasticsearch" in the description field, you would use a MatchQuery.
 
@@ -48,7 +48,7 @@ BoolQuery boolQuery = BoolQuery.of(b -> b
         )
 );
 
-6. Range Query
+5. Range Query
 Use Case: Finds documents with field values within a specified range. Commonly used for dates or numerical values.
 Example: If you want to find documents where the date is between 2023-01-01 and 2023-12-31, you would use a RangeQuery.
 RangeQuery rangeQuery = RangeQuery.of(r -> r
@@ -65,7 +65,7 @@ Example: If you're searching for documents where the name starts with "John", yo
 
 );
 
-7.Exists Query:
+6.Exists Query:
 
 Purpose: Checks if a field has a non-null, non-empty value in the document.
 
@@ -75,7 +75,7 @@ ExistsQuery existsQuery = ExistsQuery.of(e -> e
 Example Use Case: Find all documents where the description field is populated with a non-null value.
 Common Scenario: Often used to filter out documents missing specific data.
 
-8.Term Query:
+7.Term Query:
 
 Purpose: Checks if a field contains a specific value, including an empty string ("") if needed.
 
